@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -51,5 +50,15 @@ public class BookServiceImpl implements BookService {
         } else {
             throw new BookNotFoundException("Book with id: "+id+"not found");
         }
+    }
+
+    @Override
+    public int getStockById(long id) {
+        if (bookRepository.findById(id).isPresent()){
+            return bookRepository.findById(id).get().getStock();
+        } else {
+            throw new BookNotFoundException("Book with id: "+id+" is not found");
+        }
+
     }
 }

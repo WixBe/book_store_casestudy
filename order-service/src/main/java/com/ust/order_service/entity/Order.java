@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -23,9 +23,9 @@ public class Order {
 
     private int quantity;
 
-    private Status status;
+    private String status;
 
-    public Order(long bookId, long customerId, int quantity, Status status) {
+    public Order(long bookId, long customerId, int quantity, String status) {
         this.bookId = bookId;
         this.customerId = customerId;
         this.quantity = quantity;
