@@ -35,4 +35,18 @@ public class OrderController {
         dto = dto.toOrderDto(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable long id, @Valid @RequestBody OrderDto dto) {
+        Order order = dto.toOrder(dto);
+        order = orderService.updateOrder(id, order);
+        dto = dto.toOrderDto(order);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteOrder(@PathVariable long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -51,6 +51,18 @@ public class OrderServiceImpl implements OrderService {
     public Order updateOrder(long id, Order order) {
         if(orderRepository.findById(id).isPresent()) {
             order.setId(id);
+            Order existingOrder = orderRepository.findById(id).get();
+            if (order.getStatus().equals("CANCELLED") && existingOrder.getStatus().equals("CONFIRMED")) {
+                Book book = bookClient.getBookById(id);
+                bookClient.updateBook(id,
+                         new Book(
+                                 id,
+                                 book.title(),
+                                 book.author(),
+                                 book.price(),
+                                 book.stock() + order.getQuantity()
+                         ));
+            }
             return orderRepository.saveAndFlush(order);
         } else {
             throw new OrderNotFoundException("Order with id: "+id+" not found");
